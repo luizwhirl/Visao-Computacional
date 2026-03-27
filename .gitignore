@@ -1,6 +1,6 @@
 caracol.ppm
 caracol_cinza.ppm
-entrada.ppm
+# entrada.ppm
 filtrada.ppm
 imagem_filtrada.ppm
 imagem_saida.ppm
