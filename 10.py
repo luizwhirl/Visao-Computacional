@@ -3,47 +3,44 @@ import numpy as np
 import urllib.request
 import matplotlib.pyplot as plt
 
-# 1. Carregar a imagem da URL fornecida
-url = 'https://www.wondercide.com/cdn/shop/articles/Upside_down_gray_cat.png?v=1685551065'
-resp = urllib.request.urlopen(url)
+url = 'https://media.moddb.com/images/members/5/4611/4610303/profile/TLL.jpg'
+# url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIUbHuA3IQPnXhrFPyDVrc20oM7vYqtck5eg&s'
+# url = 'https://hips.hearstapps.com/hmg-prod/images/white-cat-breeds-kitten-in-grass-67bf648a54a3b.jpg?crop=0.668xw:1.00xh;0.167xw,0&resize=1200:*'
+# url = 'https://static.wikia.nocookie.net/chespirito/images/3/39/Chaves7517_480.jpg/revision/latest/scale-to-width-down/258?cb=20180420232123&path-prefix=pt'
+
+req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+resp = urllib.request.urlopen(req)
+
 image = np.asarray(bytearray(resp.read()), dtype="uint8")
 img = cv2.imdecode(image, cv2.IMREAD_COLOR)
-
-# Converter de BGR (padrão OpenCV) para RGB (para exibir corretamente no Matplotlib)
+# bgr -> rgb
 img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-# 2. Obter as dimensões originais e calcular as novas dimensões (Quadruplicar)
+# quadriplicando as dimensões originais
 altura_orig, largura_orig = img_rgb.shape[:2]
 nova_largura = largura_orig * 4
 nova_altura = altura_orig * 4
 
-# 3. Aplicar o redimensionamento com Interpolação Linear (Bilinear)
-# cv2.INTER_LINEAR é o padrão do OpenCV para interpolação linear em 2D
+# redimensionamento bilinear
 img_linear = cv2.resize(img_rgb, (nova_largura, nova_altura), interpolation=cv2.INTER_LINEAR)
-
-# 4. Aplicar o redimensionamento com Interpolação Bicúbica
 img_bicubica = cv2.resize(img_rgb, (nova_largura, nova_altura), interpolation=cv2.INTER_CUBIC)
-
-# 5. Exibir os resultados lado a lado
 fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(18, 6))
 
 ax1.imshow(img_rgb)
-ax1.set_title(f"Original\n({largura_orig}x{altura_orig})")
+ax1.set_title(f"original\n({largura_orig}x{altura_orig})")
 ax1.axis('off')
 
 ax2.imshow(img_linear)
-ax2.set_title(f"Interpolação Linear\n({nova_largura}x{nova_altura})")
+ax2.set_title(f"interpolação linear\n({nova_largura}x{nova_altura})")
 ax2.axis('off')
 
 ax3.imshow(img_bicubica)
-ax3.set_title(f"Interpolação Bicúbica\n({nova_largura}x{nova_altura})")
+ax3.set_title(f"interpolação bicúbica\n({nova_largura}x{nova_altura})")
 ax3.axis('off')
 
 plt.tight_layout()
 plt.show()
 
-# Para evidenciar a diferença, é interessante focar em um detalhe (crop)
-# Descomente o código abaixo para ver um zoom de uma área da imagem:
 """
 crop_y, crop_x = nova_altura//2, nova_largura//2
 tamanho_crop = 200
