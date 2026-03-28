@@ -61,7 +61,7 @@ def apply_filter(image, n, filter_matrix, save_path=None):
     return output
 
 if __name__ == "__main__":
-    entrada = "entrada.ppm"
+    entrada = "caracol.ppm"
     saida = "filtrada.ppm"
     
     imagem = read_ppm(entrada)

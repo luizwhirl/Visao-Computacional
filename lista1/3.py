@@ -67,7 +67,7 @@ def gauss_filtro(k, sigma):
     return H / np.sum(H)
 
 if __name__ == "__main__":
-    img_rgb = read_ppm("entrada.ppm")
+    img_rgb = read_ppm("caracol.ppm")
     img_cinza = np.dot(img_rgb[...,:3], [0.299, 0.587, 0.114]).astype(np.uint8)
 
     plt.imsave("caracol_cinza.ppm", img_cinza, cmap='gray')
