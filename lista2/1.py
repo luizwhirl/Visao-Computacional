@@ -67,6 +67,6 @@ def aplicar_detectores(img_path):
 
 if __name__ == "__main__":
     for i in range(1, 8):
-        caminho = f"imagens/image{i}.png" 
+        caminho = f"imagens-1/image{i}.png" 
         print(f"Processando: {caminho}...")
         aplicar_detectores(caminho)
