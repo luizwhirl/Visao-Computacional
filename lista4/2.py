@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from ultralytics import YOLO
 
 # YOLOv8 pre-treinado
-model = YOLO('yolov8n.pt')
+model = YOLO('yolov8m.pt')
 
 video_path = 'bridge.mp4'
 output_path = 'output_bridge.mp4'
@@ -24,8 +24,8 @@ lista_frames = []
 frame_atual = 0
 
 total_veiculos = set()
-total_por_classe = {2: set(), 3: set(), 5: set(), 7: set()}
-nomes_classes = {2: 'Carro', 3: 'Moto', 5: 'Onibus', 7: 'Caminhao'}
+total_por_classe = {2: set(), 3: set(), 5: set()}
+nomes_classes = {2: 'Carro', 3: 'Moto', 5: 'Onibus'}
 
 print("iniciciando o processamento... Isso pode levar algum tempo")
 
@@ -41,7 +41,7 @@ while cap.isOpened():
     # 5 (bus)
     # 7 (truck)
     # nisso, o parâmetro 'classes ignora tudo que nao for veículo
-    resultados = model.track(frame, classes=[2, 3, 5, 7], persist=True, verbose=False)
+    resultados = model.track(frame, classes=[2, 3, 5], persist=True, verbose=False, conf=0.40, iou=0.45)
     num_veiculos = len(resultados[0].boxes) # conta veiculo por fram
     contagem_por_frame.append(num_veiculos) 
     lista_frames.append(frame_atual)
